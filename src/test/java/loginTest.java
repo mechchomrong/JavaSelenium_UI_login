@@ -2,23 +2,31 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.lang.String;
+import java.time.Duration;
 
 
 public class loginTest {
     public static void main(String[] args) {
+
         WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver , Duration.ofSeconds(10));
+
         driver.get("https://practicetestautomation.com/practice-test-login/");
         driver.manage().window().maximize();
 
         // test login
-        WebElement username = driver.findElement(By.id("username"));
+        WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("username")));
         username.sendKeys("student");
 
-        WebElement password = driver.findElement(By.id("password"));
+        WebElement password = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("password")));
         password.sendKeys("Password123");
 
-        WebElement submit = driver.findElement(By.id("submit"));
+        WebElement submit = wait.until(ExpectedConditions.elementToBeClickable(By.id("submit")));
         submit.click();
 
         //Check it contain expected url
@@ -41,7 +49,7 @@ public class loginTest {
         // Verify button log out display in new page
 
         WebElement findbuttonlogout = driver.findElement(By.linkText("Log out"));
-        Boolean isDisplay = findbuttonlogout.isDisplayed();
+        boolean isDisplay = findbuttonlogout.isDisplayed();
         if (isDisplay){
             System.out.println(" ✅ Button logout is display");
         }else{
